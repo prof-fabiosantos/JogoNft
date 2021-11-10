@@ -1,2 +1,7 @@
-# jogonft
+# Jogo nft
 Curso de criação de jogo NFT
+
+# Instalação
+1. instalar um servidor web e configurar como www o diretório que contem os arquivos index.html e index.js
+# Executar
+Para executar o jogo digite http://localhost:porta
