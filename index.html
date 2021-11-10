@@ -53,7 +53,7 @@ function preload ()
     this.load.image('star', 'assets/star.png');
     this.load.image('bomb', 'assets/bomb.png');
 	
-		
+	// chama a função tokenURI() para obter a URI da imagem do token NFT	
 	(async()=>{
 	const result = await tokenURI();
     console.log("URI: ", result);

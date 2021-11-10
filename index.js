@@ -473,9 +473,9 @@ web3.eth.getAccounts(function(err, accounts) {
 
 async function tokenURI() {
 	
-    const url = await contract.methods.tokenURI("1").call();
+    const uri = await contract.methods.tokenURI("1").call();
 	
-	return url;
+	return uri;
 			
 }
 	
