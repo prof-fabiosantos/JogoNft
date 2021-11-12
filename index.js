@@ -16,6 +16,7 @@ console.log (window.web3.currentProvider)
 
 // contractAddress and abi are setted after contract deploy
 var contractAddress = '0x852c9406499f63BBD9fc40035e58C0aa8Ce65aA1';
+
 var abi = [
 	{
 		"inputs": [],
@@ -473,11 +474,25 @@ web3.eth.getAccounts(function(err, accounts) {
 
 async function tokenURI() {
 	
-    const uri = await contract.methods.tokenURI("1").call();
-	
+    const uri = await contract.methods.tokenURI("1").call();	
 	return uri;
 			
 }
+
+function mintNFT() {
 	
+  const uri_nft = "https://ipfs.io/ipfs/QmTGVq1tPHjWtZVhkfuv46SjNk66PCcJbbRQvmJCmdCCMX?filename=token_star.jpg";  
+  contract.methods.mint(web3.eth.defaultAccount,"5",uri_nft).send({from: web3.eth.defaultAccount}).then( function(tx) { 
+  console.log("Transaction: ", tx); 
+  Swal.fire('Mint realizado com sucesso!', '', 'success');
+  });	 
+}
+
+async function saldoToken(){
+	
+	const saldo = await contract.methods.balanceOf(web3.eth.defaultAccount).call();	
+	Swal.fire('Saldo: '+saldo+' STAR', '', 'success');
+	console.log("Saldo: ", saldo);
+}
 
 

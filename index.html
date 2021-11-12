@@ -6,6 +6,7 @@
     <script src="//cdn.jsdelivr.net/npm/phaser@3.1.1/dist/phaser.js"></script>
 	<script src="./node_modules/web3/dist/web3.min.js"></script>
 	<script src="./index.js"></script>
+	<script src="//cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 	 
     <style type="text/css">
         body {
@@ -55,13 +56,14 @@ function preload ()
 	
 	// chama a função tokenURI() para obter a URI da imagem do token NFT	
 	(async()=>{
-	const result = await tokenURI();
-    console.log("URI: ", result);
-	localStorage.setItem('uri', result);		
+		const result = await tokenURI();
+		console.log("URI: ", result);
+		localStorage.setItem('uri', result);		
 	})();
 	
 	this.load.spritesheet('dude', localStorage.getItem('uri'),{ frameWidth: 32, frameHeight: 48 });
-	  
+	
+	Saldo();
 }
 
 function create ()
@@ -199,10 +201,53 @@ function collectStar (player, star)
         bomb.setVelocity(Phaser.Math.Between(-200, 200), 20);
 
     }
-	//if (score == 30){
-	//	alert("Parabéns");
-	//}
+	/* Se o jogador atingir 100 pontos ganha um TOKEN*/
+	if (score == 100){			
+		mint();		
+	}
 }
+
+function mint() {
+	Swal.fire('');
+	Swal.fire({
+    title: 'Parabéns! Você ganhou uma STAR, clique no botão CLAIM para obter seu token',
+    showDenyButton: false,
+    showCancelButton: false,
+    confirmButtonText: 'CLAIM',
+    denyButtonText: `Don't save`,
+    }).then((result) => {
+      /* Read more about isConfirmed, isDenied below */
+    if (result.isConfirmed) {
+       /* Chama função do contrato inteligente que executa o MINT do TOKEN*/
+	   mintNFT();	   
+    } else if (result.isDenied) {
+       Swal.fire('Changes are not saved', '', 'info')
+    }
+  })
+	
+}
+
+function Saldo(){
+	Swal.fire('');
+	Swal.fire({
+    title: 'Clique no botão BALANCE para obter seu saldo de STAR TOKENs',
+    showDenyButton: false,
+    showCancelButton: false,
+    confirmButtonText: 'BALANCE',
+    denyButtonText: `Don't save`,
+    }).then((result) => {
+      /* Read more about isConfirmed, isDenied below */
+    if (result.isConfirmed) {
+       /* Chama função do contrato inteligente que executa obter o saldo de TOKENS*/
+	   saldoToken();	   
+    } else if (result.isDenied) {
+       Swal.fire('Changes are not saved', '', 'info')
+    }
+  })
+	
+	
+}
+    
 
 function hitBomb (player, bomb)
 {
