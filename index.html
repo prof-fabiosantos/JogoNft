@@ -1,3 +1,4 @@
+<!--Autor: Prof. Fabio santos (fssilva@uea.edu.br) -->
 <!doctype html> 
 <html lang="en"> 
 <head> 
@@ -219,7 +220,12 @@ function mint() {
       /* Read more about isConfirmed, isDenied below */
     if (result.isConfirmed) {
        /* Chama função do contrato inteligente que executa o MINT do TOKEN*/
-	   mintNFT();	   
+	   (async()=>{
+		const result = await mintNFT();
+		if (result != 0)
+			Swal.fire('Mint realizado com sucesso!', '', 'success');				
+	    })();
+	   			
     } else if (result.isDenied) {
        Swal.fire('Changes are not saved', '', 'info')
     }
@@ -230,7 +236,7 @@ function mint() {
 function Saldo(){
 	Swal.fire('');
 	Swal.fire({
-    title: 'Clique no botão BALANCE para obter seu saldo de STAR TOKENs',
+    title: 'Clique no botão BALANCE para obter o seu saldo de STAR TOKENs',
     showDenyButton: false,
     showCancelButton: false,
     confirmButtonText: 'BALANCE',
@@ -239,13 +245,16 @@ function Saldo(){
       /* Read more about isConfirmed, isDenied below */
     if (result.isConfirmed) {
        /* Chama função do contrato inteligente que executa obter o saldo de TOKENS*/
-	   saldoToken();	   
+	   (async()=>{
+		const result = await saldoToken();
+		if (result != 0)
+			Swal.fire('Saldo: '+result+' STAR TOKENS', '', 'success');				
+	    })();	   
+			
     } else if (result.isDenied) {
        Swal.fire('Changes are not saved', '', 'info')
     }
-  })
-	
-	
+  })	
 }
     
 

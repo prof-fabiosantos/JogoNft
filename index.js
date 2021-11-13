@@ -1,4 +1,5 @@
 // Source code to interact with smart contract
+//<-- Autor: Prof. Fabio santos (fssilva@uea.edu.br) -->
 
 //connection with node
 if (window.ethereum) {
@@ -479,20 +480,21 @@ async function tokenURI() {
 			
 }
 
-function mintNFT() {
+async function mintNFT() {
 	
   const uri_nft = "https://ipfs.io/ipfs/QmTGVq1tPHjWtZVhkfuv46SjNk66PCcJbbRQvmJCmdCCMX?filename=token_star.jpg";  
-  contract.methods.mint(web3.eth.defaultAccount,"5",uri_nft).send({from: web3.eth.defaultAccount}).then( function(tx) { 
+  await contract.methods.mint(web3.eth.defaultAccount,"8",uri_nft).send({from: web3.eth.defaultAccount}).then( function(tx) { 
   console.log("Transaction: ", tx); 
-  Swal.fire('Mint realizado com sucesso!', '', 'success');
+  return tx;
   });	 
 }
 
 async function saldoToken(){
 	
 	const saldo = await contract.methods.balanceOf(web3.eth.defaultAccount).call();	
-	Swal.fire('Saldo: '+saldo+' STAR', '', 'success');
 	console.log("Saldo: ", saldo);
+	return saldo;
+	
 }
 
 
