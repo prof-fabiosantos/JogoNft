@@ -16,7 +16,7 @@ console.log (window.web3.currentProvider)
 
 
 // contractAddress and abi are setted after contract deploy
-var contractAddress = '0x852c9406499f63BBD9fc40035e58C0aa8Ce65aA1';
+var contractAddress = '0x2A1464e98CA2318148c3C979Fb4309381eBa21AD';
 
 var abi = [
 	{
@@ -232,11 +232,6 @@ var abi = [
 				"type": "address"
 			},
 			{
-				"internalType": "uint256",
-				"name": "_tokenId",
-				"type": "uint256"
-			},
-			{
 				"internalType": "string",
 				"name": "_uri",
 				"type": "string"
@@ -255,6 +250,19 @@ var abi = [
 				"internalType": "string",
 				"name": "_name",
 				"type": "string"
+			}
+		],
+		"stateMutability": "view",
+		"type": "function"
+	},
+	{
+		"inputs": [],
+		"name": "nextTokenId",
+		"outputs": [
+			{
+				"internalType": "uint256",
+				"name": "",
+				"type": "uint256"
 			}
 		],
 		"stateMutability": "view",
@@ -480,10 +488,22 @@ async function tokenURI() {
 			
 }
 
-async function mintNFT() {
-	
-  const uri_nft = "https://ipfs.io/ipfs/QmTGVq1tPHjWtZVhkfuv46SjNk66PCcJbbRQvmJCmdCCMX?filename=token_star.jpg";  
-  await contract.methods.mint(web3.eth.defaultAccount,"8",uri_nft).send({from: web3.eth.defaultAccount}).then( function(tx) { 
+async function mintNFT(score) {
+  var uri_nft = 0;
+  if (score == 500) {
+	var uri_nft = "https://ipfs.io/ipfs/QmZVF8r8WUxix2qErPNqkoq1ue2afNZYgsgokQWzNug8Rt?filename=star_blue.jpg"; 
+  }
+  else if (score == 1000) {
+	var uri_nft = "https://ipfs.io/ipfs/QmZQumiqBkhrP6AXrxc7VfmCWAGMxte6tfn4PvxWySUesN?filename=star_green.jpg"; 
+  }
+  else if (score == 1500) {
+	var uri_nft = "https://ipfs.io/ipfs/QmadfdeP5NYERiJzeh2yYLq2gUsEpTqSMR9WHvSfQJ3jmz?filename=star_red.png"; 
+  }
+  else if (score == 2000) {
+	var uri_nft = "https://ipfs.io/ipfs/QmV4wkfaVSSH9dponcjc4b2LjBDtr4KCTPM5MdV2Mmwb35?filename=star_yellon.jpg"; 
+  }
+	  
+  await contract.methods.mint(web3.eth.defaultAccount,uri_nft).send({from: web3.eth.defaultAccount}).then( function(tx) { 
   console.log("Transaction: ", tx); 
   return tx;
   });	 
