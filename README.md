@@ -1,6 +1,6 @@
 #Autor
 Prof. Fabio Santos (fssilva@uea.edu.br)
-# Jogo nft
+# Jogo NFT
 Curso de criação de jogo NFT
 
 # Instalação
