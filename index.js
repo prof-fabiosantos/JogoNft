@@ -16,7 +16,7 @@ console.log (window.web3.currentProvider)
 
 
 // contractAddress and abi are setted after contract deploy
-var contractAddress = '0x2A1464e98CA2318148c3C979Fb4309381eBa21AD';
+var contractAddress = '0x270566Bf3Ec84ebA3a4BDb47f7e1bfd35B46ddf7';
 
 var abi = [
 	{
@@ -481,26 +481,26 @@ web3.eth.getAccounts(function(err, accounts) {
 
 //Smart contract functions
 
-async function tokenURI() {
+async function tokenURI(id) {
 	
-    const uri = await contract.methods.tokenURI("1").call();	
+    const uri = await contract.methods.tokenURI(id).call();	
 	return uri;
 			
 }
 
 async function mintNFT(score) {
   var uri_nft = 0;
-  if (score == 500) {
-	var uri_nft = "https://ipfs.io/ipfs/QmZVF8r8WUxix2qErPNqkoq1ue2afNZYgsgokQWzNug8Rt?filename=star_blue.jpg"; 
+  if (score == 50) {
+	var uri_nft = "https://ipfs.io/ipfs/QmaV71twWLrJfLrZ9MjVgwuMJzNQ3e6pYgACY8Kn3K4xXV?filename=estrela_azul.png"; 
   }
-  else if (score == 1000) {
-	var uri_nft = "https://ipfs.io/ipfs/QmZQumiqBkhrP6AXrxc7VfmCWAGMxte6tfn4PvxWySUesN?filename=star_green.jpg"; 
+  else if (score == 100) {
+	var uri_nft = "https://ipfs.io/ipfs/QmQFT25ramLQXs3YNQzmhUsHwbWpknLm8sRsnpHFwM3CgD?filename=estrela_verde.jpg"; 
   }
   else if (score == 1500) {
-	var uri_nft = "https://ipfs.io/ipfs/QmadfdeP5NYERiJzeh2yYLq2gUsEpTqSMR9WHvSfQJ3jmz?filename=star_red.png"; 
+	var uri_nft = "https://ipfs.io/ipfs/QmQTnud4W6DLRtAhG1CZxBnXKSY4TyQYT7mmiPHTyU5F7S?filename=estrela_vermelha.jpg"; 
   }
   else if (score == 2000) {
-	var uri_nft = "https://ipfs.io/ipfs/QmV4wkfaVSSH9dponcjc4b2LjBDtr4KCTPM5MdV2Mmwb35?filename=star_yellon.jpg"; 
+	var uri_nft = "https://ipfs.io/ipfs/QmY3uQbRAHmsDosqbPy5Rj4xNrAY22vNwJgz18Ew4HCYtN?filename=estrela_dourada.jpg"; 
   }
 	  
   await contract.methods.mint(web3.eth.defaultAccount,uri_nft).send({from: web3.eth.defaultAccount}).then( function(tx) { 
