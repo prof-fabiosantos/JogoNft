@@ -493,7 +493,7 @@ async function mintNFT(score) {
   if (score == 50) {
 	var uri_nft = "https://ipfs.io/ipfs/QmaV71twWLrJfLrZ9MjVgwuMJzNQ3e6pYgACY8Kn3K4xXV?filename=estrela_azul.png"; 
   }
-  else if (score == 100) {
+  else if (score == 1000) {
 	var uri_nft = "https://ipfs.io/ipfs/QmQFT25ramLQXs3YNQzmhUsHwbWpknLm8sRsnpHFwM3CgD?filename=estrela_verde.jpg"; 
   }
   else if (score == 1500) {
@@ -514,6 +514,26 @@ async function saldoToken(){
 	const saldo = await contract.methods.balanceOf(web3.eth.defaultAccount).call();	
 	console.log("Saldo: ", saldo);
 	return saldo;
+	
+}
+
+async function transferStarToken(toaddr, tokenId){
+	await contract.methods
+            .transferFrom(web3.eth.defaultAccount, toaddr, tokenId)
+            .send({
+              from: web3.eth.defaultAccount
+            })
+            .then( function(r){
+              console.log(r);
+              return r;
+            });
+}
+
+async function tokenId(){
+	
+	const token_id = await contract.methods.nextTokenId(web3.eth.defaultAccount).call();	
+	console.log("Token Id: ", token_id);
+	return token_id;
 	
 }
 

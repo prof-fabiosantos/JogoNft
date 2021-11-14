@@ -9,21 +9,38 @@
 	<script src="./index.js"></script>
 	<script src="//cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 	<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+	<link href="https://unpkg.com/cirrus-ui" type="text/css" rel="stylesheet" />
+	<link
+      rel="stylesheet"
+      href="https://use.fontawesome.com/releases/v5.8.1/css/all.css"
+      integrity="sha384-50oBUHEmvpQ+1lW4y57PTFmhCaXp0ML5d60M1M7uH2+nqUivzIebhndOJK28anvf"
+      crossorigin="anonymous"
+    />
+	 <link
+      href="https://fonts.googleapis.com/css?family=Nunito+Sans:200,300,400,600,700"
+      rel="stylesheet"
+    />
+    <link
+      href="https://fonts.googleapis.com/css?family=Montserrat:400,700"
+      rel="stylesheet"
+    />
 	 
     <style type="text/css">
         body {
-            margin: 0;
+            margin: 10;
         }
     </style>
 </head>
 <body>
 
-	<div style="margin-top: 30px;" class="row text-center">
-		<div class="col-md-12">
-			<button id="getStarToken" class="btn btn-primary">Suas STAR Tokens</button>
+	<div style="margin-top: 20px;" class="row text-center">
+		<div class="col-md-6">
+			<button id="getStarToken" class="btn-success u-no-padding">Suas STAR Tokens</button>
+			<button id="transferToken" class="btn-success u-no-padding">Transferir STAR Tokens</button>
+			<button id="exit" class="btn-success u-no-padding">Sair</button>			
 		</div>
 	</div>
-
+	<br>
 <script type="text/javascript" >
 
 	$( document ).ready(function() {
@@ -32,8 +49,19 @@
 				console.log("botão clicado");
 				
             });
-		})
-
+		$('#transferToken').click(function() {
+                transferToken();
+				console.log("botão clicado");
+				
+        });
+		
+		$('#exit').click(function() {
+                exit();
+				console.log("botão clicado");
+				
+        });
+		
+    })
 var config = {
     type: Phaser.AUTO,
     width: 800,
@@ -87,7 +115,7 @@ function preload ()
 function create ()
 {
     //  A simple background for our game
-    this.add.image(400, 300, 'sky');
+    this.add.image(400, 300, 'sky');	 
 
     //  The platforms group contains the ground and the 2 ledges we can jump on
     platforms = this.physics.add.staticGroup();
@@ -222,7 +250,7 @@ function collectStar (player, star)
 
     }
 	/* A cada 500 pontos o jogador ganha uma STAR TOKEN*/
-	if (score == 50 || score == 100 || score == 1500 || score == 2000){			
+	if (score == 50 || score == 1000 || score == 1500 || score == 2000){			
 		mint(score);		
 	}
 }
@@ -255,7 +283,7 @@ function mint(score) {
 function saldo(){
 	
 	Swal.fire({
-    title: 'Clique em BALANCE para obter o seu saldo de STAR TOKENs',
+    title: 'Clique em BALANCE para obter o seu saldo de STARs',
     showDenyButton: false,
     showCancelButton: false,
     confirmButtonText: 'BALANCE',
@@ -266,6 +294,7 @@ function saldo(){
        /* Chama função do contrato inteligente que executa obter o saldo de TOKENS*/
 	   (async()=>{
 		var result1 = await saldoToken();
+		var id = await tokenId();
 		var n = parseInt(result1, 10);				
 		var result2 = [];
 		var msg = '';
@@ -275,7 +304,7 @@ function saldo(){
 		if (result1 != "")			
 			for (var i = 1; i <=n; i++) {
 				if (result2[i] != 'undefined'){
-					msg = msg +'<br>'+'<img src='+result2[i]+'>'
+					msg = msg +'<br>'+'<img src='+result2[i]+'>'+'Token Id:'+id;
 					Swal.fire('Saldo: '+result1+' STAR TOKENS ',msg, '', 'success');
 					console.log("result2: "+result2[i]);
 				}
@@ -288,7 +317,14 @@ function saldo(){
     }
   })	
 }
-    
+
+function transferToken(){
+  window.location.href = "transferToken.html";
+}
+
+function exit(){
+  window.location.href = "index.html";
+}
 
 function hitBomb (player, bomb)
 {

@@ -9,6 +9,25 @@
 	<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 	<script src="https://cdnjs.cloudflare.com/ajax/libs/web3/3.0.0-rc.5/web3.min.js"></script>
 	<script src="//cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+	<link href="https://unpkg.com/cirrus-ui" type="text/css" rel="stylesheet" />
+    <link
+      rel="stylesheet"
+      href="https://use.fontawesome.com/releases/v5.8.1/css/all.css"
+      integrity="sha384-50oBUHEmvpQ+1lW4y57PTFmhCaXp0ML5d60M1M7uH2+nqUivzIebhndOJK28anvf"
+      crossorigin="anonymous"
+    />
+	<link
+      href="https://fonts.googleapis.com/css?family=Nunito+Sans:200,300,400,600,700"
+      rel="stylesheet"
+    />
+    <link
+      href="https://fonts.googleapis.com/css?family=Montserrat:400,700"
+      rel="stylesheet"
+    />
+	
+	
+	
+	
     <title>Meu Primeiro Jogo NFT</title>
     
 	<style type="text/css">
@@ -30,8 +49,7 @@
 		}).then((result) => {
 		  /* Read more about isConfirmed, isDenied below */
 		if (result.isConfirmed) {
-			window.location.href = "game.html";
-		   
+			window.location.href = "game.html";	   
 					
 		} 
 		else if (result.isDenied) {
@@ -71,11 +89,12 @@
 		<div style="margin-top: 30px;" class="row text-center">
             <div class="col-md-12">
                 <h2>Bem vindo ao Exemplo de Jogo NFT</h2>
+				<img src='assets/img6.png'>
             </div>            
         </div>
 		<div style="margin-top: 30px;" class="row text-center">
             <div class="col-md-12">
-                <button id="enableMetamask" class="btn btn-primary">Conectar ao Metamask</button>
+                <button id="enableMetamask" class="btn-success u-no-padding">Conectar ao Metamask</button>
             </div>
         </div>	
 		

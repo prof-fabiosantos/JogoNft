@@ -1,0 +1,148 @@
+<!DOCTYPE html>
+<html>
+  <header>
+    <meta
+      name="viewport"
+      content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=0"
+    />
+    <title>Transferir STAR Tokens</title>
+
+    <link href="https://unpkg.com/cirrus-ui" type="text/css" rel="stylesheet" />
+    <link
+      rel="stylesheet"
+      href="https://use.fontawesome.com/releases/v5.8.1/css/all.css"
+      integrity="sha384-50oBUHEmvpQ+1lW4y57PTFmhCaXp0ML5d60M1M7uH2+nqUivzIebhndOJK28anvf"
+      crossorigin="anonymous"/>
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/web3/3.0.0-rc.5/web3.min.js"></script>
+    <script src="./index.js"></script>
+    <link
+      href="https://fonts.googleapis.com/css?family=Nunito+Sans:200,300,400,600,700"
+      rel="stylesheet"/>
+    <link
+      href="https://fonts.googleapis.com/css?family=Montserrat:400,700"
+      rel="stylesheet"/>
+    <script
+      src="https://code.jquery.com/jquery-2.2.4.min.js"
+      integrity="sha256-BbhdlvQf/xTY9gja0Dq3HiwQF8LaCRTXxZKRutelT44="
+      crossorigin="anonymous"></script>
+	<link 
+	  rel="stylesheet" href="css/style.css" type="text/css">
+    
+  </header>
+
+  <body>
+    <div id="header" class="header header-top header-fixed unselectable">
+      <div class="header-brand">
+        <div class="nav-item no-hover">
+          <a href="./index.html">
+            <h5 class="title">
+               Jogo NFT
+            </h5>
+          </a>
+        </div>
+      </div>
+      <div class="header-nav" id="header-menu">
+        <div class="nav-right">
+          <div class="nav-item has-sub" style="padding: 0.5rem;">
+            <div class="list-dropdown dropdown-right">
+              <div class="btn-group">
+                <button class="btn-success u-no-padding">
+                  <a class="font-normal" href="./game.html">
+                    <span style="color: white;"><i class="fas fa-wrapper fa-home small"></i> Voltar para o Jogo</span>
+                  </a>
+                </button>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="hero fullscreen" style="margin-top: 3.5em;">
+      <div class="row u-no-padding">
+        <div class="col-6 u-no-padding level">
+          <div class="u-text-left w-100">
+            <div class="content">
+              <h4>Transferir Star Token</h4>
+
+              <div class="divider"></div>
+
+              <div class="form-section changeInput">
+                <label class="font-semibold">Token Id:</label>
+                <div class="input-control">
+                  <input
+                    class="input-contains-icon"
+                    id="tid"
+                    name="tid"
+                    placeholder="Digite o Token Id"
+                    type="text"
+                    value=""                    
+                  />
+                </div>
+              </div>
+
+              <div class="form-section changeInput">
+                <label class="font-semibold">Transferir para:</label>
+                <div class="input-control">
+                  <input
+                    class="input-contains-icon"
+                    id="toaddr"
+                    name="toaddr"
+                    placeholder="Hash do destinatário"
+                    type="text"
+                    value=""
+                  />
+                </div>
+              </div>
+
+              <div class="form-section u-text-right">
+                <div class="btn-container u-inline-block">
+                  <button
+                    class="white"
+                    style="background: var(--cirrus-success);"
+                    id="create">
+                    Transferir
+                  </button>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>        
+      </div>
+    </div>
+
+    <script>
+      
+    
+      $(document).ready(function () {
+        $("#create").click(function () {
+          $("#create").addClass(
+            "animated loading u-center loading-right loading-white"
+          );
+
+          var toaddr = $("#toaddr").val();
+		  var tokenId = $("#tid").val();
+		  
+		  (async()=>{
+		  const result = await transferStarToken(toaddr, tokenId);
+		  if (result != 0)
+			 $("#create").removeClass(
+                "animated loading u-center loading-right loading-white"
+              );
+              $("#create").text("Token Transferido!");				
+	      })().catch((e) => {
+              $("#create").removeClass(
+                "animated loading u-center loading-right loading-white"
+              );
+              $("#create").text("There was an Error.");
+              $("#create").css("background", "var(--cirrus-danger)");
+            });	
+          
+        });
+      });
+    </script>
+
+    
+  </body>
+</html>
