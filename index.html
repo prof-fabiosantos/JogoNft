@@ -14,27 +14,30 @@
       rel="stylesheet"
       href="https://use.fontawesome.com/releases/v5.8.1/css/all.css"
       integrity="sha384-50oBUHEmvpQ+1lW4y57PTFmhCaXp0ML5d60M1M7uH2+nqUivzIebhndOJK28anvf"
-      crossorigin="anonymous"
-    />
+      crossorigin="anonymous" />
 	<link
       href="https://fonts.googleapis.com/css?family=Nunito+Sans:200,300,400,600,700"
-      rel="stylesheet"
-    />
+      rel="stylesheet" />
     <link
       href="https://fonts.googleapis.com/css?family=Montserrat:400,700"
-      rel="stylesheet"
-    />
-	
-	
-	
-	
+      rel="stylesheet" />	
+		
     <title>Meu Primeiro Jogo NFT</title>
-    
-	<style type="text/css">
-        body {
-            margin: 0;
-        }
-    </style>
+    	
+	<style type = "text/css">
+	body{
+	padding: 0px;
+	margin: 0px;
+	}
+	canvas{
+	display:block;
+	margin: 0;
+	position: absolute;
+	top: 50%;
+	left: 50%;
+	transform: translate(-50%, -50%);
+	}
+	</style>
 </head>
 <script>
 
@@ -89,14 +92,21 @@
 		<div style="margin-top: 30px;" class="row text-center">
             <div class="col-md-12">
                 <h2>Bem vindo ao Exemplo de Jogo NFT</h2>
-				<img src='assets/img6.png'>
-            </div>            
-        </div>
-		<div style="margin-top: 30px;" class="row text-center">
-            <div class="col-md-12">
-                <button id="enableMetamask" class="btn-success u-no-padding">Conectar ao Metamask</button>
-            </div>
-        </div>	
+				<img src='assets/img6.png'>				
+            </div>  
+			<br>
+			<br>
+			 <div class="col-md-12">
+                <br>
+				<h3>Instruções para jogar:</h6>				
+            </div> 
+			<div class="col-md-12">
+                <h5>1. Conectar no Metamask <button id="enableMetamask" class="btn-success u-no-padding">Conectar ao Metamask</button></h5>
+				<h5>2. Selecionar a rede Rospten Testnet</h5>
+				<h5>3. Acessar um faucet e solicitar ETHERs para poder jogar</h5>	
+				<h5><a href="" onClick="javascript:window.open('https://faucet.dimensions.network/', 'popup') ;return false">Faucet Rospten</a></h5>
+            </div> 
+        </div>			
 		
 </body>
 </html>

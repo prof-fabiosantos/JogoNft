@@ -15,7 +15,7 @@
       crossorigin="anonymous"/>
 
     <script src="https://cdnjs.cloudflare.com/ajax/libs/web3/3.0.0-rc.5/web3.min.js"></script>
-    <script src="./index.js"></script>
+    <script src="./js/index.js"></script>
     <link
       href="https://fonts.googleapis.com/css?family=Nunito+Sans:200,300,400,600,700"
       rel="stylesheet"/>
@@ -123,7 +123,7 @@
 
           var toaddr = $("#toaddr").val();
 		  var tokenId = $("#tid").val();
-		  
+		  /* Chama função do contrato inteligente que transfere o TOKEN*/
 		  (async()=>{
 		  const result = await transferStarToken(toaddr, tokenId);
 		  if (result != 0)
