@@ -8,6 +8,7 @@
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.6.0/dist/css/bootstrap.min.css">
 	<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 	<script src="https://cdnjs.cloudflare.com/ajax/libs/web3/3.0.0-rc.5/web3.min.js"></script>
+	<script src="./js/index.js"></script>
 	<script src="//cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 	<link href="https://unpkg.com/cirrus-ui" type="text/css" rel="stylesheet" />
     <link
@@ -42,7 +43,7 @@
 <script>
 
 	function status() {
-        Swal.fire('');
+        var msg = ' ';
 		Swal.fire({
 		title: 'Conectado! Clique em um botão',
 		showDenyButton: true,
@@ -56,7 +57,36 @@
 					
 		} 
 		else if (result.isDenied) {
-		    window.location.href = "ranking.html";
+		     
+			 (async()=>{
+			  const result = await getRanking();
+			  console.log("tamanho:",result.length);
+			  
+			  for (var i = 0; i < result.length; i++) {
+			  
+					msg = msg + 'Hash: '+result[i][0]+' '+'Score: '+result[i][1]+'<br>';
+					Swal.fire(msg, '', 'success');
+					Swal.fire({
+					  title: '<strong>Ranking</strong>',
+					  icon: 'info',
+					  html:
+						'<font size="0.5px">' +
+						msg +
+						'</font>',
+					  showCloseButton: true,
+					  showCancelButton: false,
+					  focusConfirm: false,
+					  confirmButtonText:
+						'<i class="fa fa-thumbs-up"></i> Fechar!'
+					 
+					})
+
+
+					
+			  }
+			  
+			})();
+			 
 		}
 	  })          
             
@@ -80,9 +110,7 @@
     }
 		$( document ).ready(function() {
 		 $('#enableMetamask').click(function() {
-                connect();
-				console.log("botão clicado");
-				
+                connect();				
             });
 		})
 

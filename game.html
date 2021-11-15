@@ -3,9 +3,8 @@
 <html lang="en"> 
 <head> 
     <meta charset="UTF-8" />
-	<meta name = "viewport" content = "width = device-width, initial-scale =
-1.0, maximum-scale = 1.0, minimum-scale = 1.0, user-scalable = 0,
-minimal-ui" />
+	<meta name = "viewport" content = "width = device-width, initial-scale = 1.0, maximum-scale = 1.0,
+	minimum-scale = 1.0, user-scalable = 0,minimal-ui" />
     <title>Meu Primeiro Jogo NFT - parte 1</title>
     <script src="//cdn.jsdelivr.net/npm/phaser@3.1.1/dist/phaser.js"></script>
 	<script src="https://cdnjs.cloudflare.com/ajax/libs/web3/3.0.0-rc.5/web3.min.js"></script>
@@ -63,19 +62,18 @@ minimal-ui" />
               <div class="btn-group">
                 <button id="getStarToken" class="btn-success u-no-padding">
                   <a class="font-normal" >
-                    <span style="color: white;">Consultar as suas STAR Tokens</span>
+                    <span style="color: white;">Saldo de STAR Tokens</span>
                   </a>
                 </button>
               </div>
             </div>
           </div>
         </div>
-      </div>
-		
-		<div class="header-nav" id="header-menu">
+      </div>		
+	  <div class="header-nav" id="header-menu">
         <div class="nav-right">
           <div class="nav-item has-sub" style="padding: 0.5rem;">
-            <div class="list-dropdown dropdown-left">
+            <div class="list-dropdown dropdown-right">
               <div class="btn-group">
                 <button id="transferToken" class="btn-success u-no-padding">
                   <a class="font-normal" href="./transferToken.html">
@@ -86,8 +84,23 @@ minimal-ui" />
             </div>
           </div>
         </div>
+      </div>		
+	  <div class="header-nav" id="header-menu">
+        <div class="nav-right">
+          <div class="nav-item has-sub" style="padding: 0.5rem;">
+            <div class="list-dropdown dropdown-right">
+              <div class="btn-group">
+                <button id="start" class="btn-success u-no-padding">
+                  <a class="font-normal" href="./game.html">
+                    <span style="color: white;">Começar Novo Jogo</span>
+                  </a>
+                </button>
+              </div>
+            </div>
+          </div>
+        </div>
       </div>
-		
+	
 		
 		<div class="header-nav" id="header-menu">
         <div class="nav-right">
@@ -111,10 +124,10 @@ minimal-ui" />
 
 	$( document ).ready(function() {
 		 $('#getStarToken').click(function() {
-                saldo();;
+                saldo();
 				console.log("botão clicado");
 				
-            });		
+            });				
 		
     })
 var config = {
@@ -143,6 +156,7 @@ var cursors;
 var score = 0;
 var gameOver = false;
 var scoreText;
+var global_scene_paused = false;
 
 var game = new Phaser.Game(config);
 
@@ -306,6 +320,9 @@ function collectStar (player, star)
     }
 	/* A cada 500 pontos o jogador ganha uma STAR TOKEN*/
 	if (score == 500 || score == 1000 || score == 1500 || score == 2000){			
+		//this.physics.pause();
+		game.scene.pause('default');
+		global_scene_paused = 'default';
 		mint(score);		
 	}
 }
@@ -324,8 +341,11 @@ function mint(score) {
        /* Chama função do contrato inteligente que executa o MINT do TOKEN*/
 	   (async()=>{
 		const result = await mintNFT(score);
-		if (result != 0)
-			Swal.fire('Mint realizado com sucesso!', '', 'success');				
+		if (result != 0){
+			Swal.fire('Mint realizado com sucesso!', '', 'success');
+			game.scene.resume(global_scene_paused);
+		}
+			
 	    })();
 	   			
     } else if (result.isDenied) {
@@ -383,7 +403,17 @@ function hitBomb (player, bomb)
     player.anims.play('turn');
 
     gameOver = true;
+		
+	Swal.fire('Game Over - Clique em confirme no Metamask para atualizar seu ranking', '', 'success');
+	
+	(async()=>{
+		  const result = await updateRanking(score);
+		  if (result != 0)
+			Swal.fire('Ranking atualizado', '', 'success');				
+	    })();
+	
 }
+
 
 </script>
 	

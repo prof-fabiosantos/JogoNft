@@ -16,7 +16,7 @@ console.log (window.web3.currentProvider)
 
 
 // contractAddress and abi are setted after contract deploy
-var contractAddress = '0x1064C228282f9e47493D80001D3385a7F7449A59';
+var contractAddress = '0x8cefb0dC945eAaFFa370bA4Ba7928cF45feb0986';
 
 var abi = [
 	{
@@ -201,6 +201,31 @@ var abi = [
 		"type": "function"
 	},
 	{
+		"inputs": [],
+		"name": "getRanking",
+		"outputs": [
+			{
+				"components": [
+					{
+						"internalType": "address",
+						"name": "player",
+						"type": "address"
+					},
+					{
+						"internalType": "uint256",
+						"name": "scoreid",
+						"type": "uint256"
+					}
+				],
+				"internalType": "struct newNFT.PlayGame[]",
+				"name": "",
+				"type": "tuple[]"
+			}
+		],
+		"stateMutability": "view",
+		"type": "function"
+	},
+	{
 		"inputs": [
 			{
 				"internalType": "address",
@@ -295,6 +320,30 @@ var abi = [
 				"internalType": "address",
 				"name": "_owner",
 				"type": "address"
+			}
+		],
+		"stateMutability": "view",
+		"type": "function"
+	},
+	{
+		"inputs": [
+			{
+				"internalType": "uint256",
+				"name": "",
+				"type": "uint256"
+			}
+		],
+		"name": "ranking",
+		"outputs": [
+			{
+				"internalType": "address",
+				"name": "player",
+				"type": "address"
+			},
+			{
+				"internalType": "uint256",
+				"name": "scoreid",
+				"type": "uint256"
 			}
 		],
 		"stateMutability": "view",
@@ -455,6 +504,31 @@ var abi = [
 		"outputs": [],
 		"stateMutability": "nonpayable",
 		"type": "function"
+	},
+	{
+		"inputs": [],
+		"name": "updateNextTokenId",
+		"outputs": [],
+		"stateMutability": "nonpayable",
+		"type": "function"
+	},
+	{
+		"inputs": [
+			{
+				"internalType": "address",
+				"name": "_from",
+				"type": "address"
+			},
+			{
+				"internalType": "uint256",
+				"name": "_score",
+				"type": "uint256"
+			}
+		],
+		"name": "updateRanking",
+		"outputs": [],
+		"stateMutability": "nonpayable",
+		"type": "function"
 	}
 ];
 
@@ -537,4 +611,36 @@ async function tokenId(){
 	
 }
 
+async function updateTokenId(){
+	
+	await contract.methods
+            .updateNextTokenId()
+            .send({
+              from: web3.eth.defaultAccount
+            })
+            .then( function(r){
+              console.log(r);
+              return r;
+            });	
+}
 
+async function updateRanking(score){
+	
+	await contract.methods
+            .updateRanking(web3.eth.defaultAccount, score)
+            .send({
+              from: web3.eth.defaultAccount
+            })
+            .then( function(r){
+              console.log(r);
+              return r;
+            });	
+}
+
+async function getRanking(){
+	
+	const ranking = await contract.methods.getRanking().call();	
+	//console.log("ranking: ", ranking);
+	return ranking;
+	
+}

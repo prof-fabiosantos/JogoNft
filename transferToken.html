@@ -89,7 +89,7 @@
                     class="input-contains-icon"
                     id="toaddr"
                     name="toaddr"
-                    placeholder="Hash do destinatário"
+                    placeholder="Hash do destinatario"
                     type="text"
                     value=""
                   />
@@ -138,6 +138,12 @@
               $("#create").text("There was an Error.");
               $("#create").css("background", "var(--cirrus-danger)");
             });	
+		
+			(async()=>{
+			  const result = await updateTokenId();
+			  if (result != 0)
+				Swal.fire('Update realizado com sucesso!', '', 'success');				
+			})();
           
         });
       });
