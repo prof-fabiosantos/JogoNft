@@ -8,7 +8,7 @@
 minimal-ui" />
     <title>Meu Primeiro Jogo NFT - parte 1</title>
     <script src="//cdn.jsdelivr.net/npm/phaser@3.1.1/dist/phaser.js"></script>
-	<script src="./node_modules/web3/dist/web3.min.js"></script>
+	<script src="https://cdnjs.cloudflare.com/ajax/libs/web3/3.0.0-rc.5/web3.min.js"></script>
 	<script src="./js/index.js"></script>
 	<script src="//cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 	<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
@@ -26,8 +26,7 @@ minimal-ui" />
     <link
       href="https://fonts.googleapis.com/css?family=Montserrat:400,700"
       rel="stylesheet"
-    />
-	 
+    />	 
    	
 	<style type = "text/css">
 	body{
@@ -38,7 +37,7 @@ minimal-ui" />
 	display:block;
 	margin: 0;
 	position: absolute;
-	top: 50%;
+	top: 58%;
 	left: 50%;
 	transform: translate(-50%, -50%);
 	}
@@ -306,7 +305,7 @@ function collectStar (player, star)
 
     }
 	/* A cada 500 pontos o jogador ganha uma STAR TOKEN*/
-	if (score == 50 || score == 100 || score == 1500 || score == 2000){			
+	if (score == 500 || score == 1000 || score == 1500 || score == 2000){			
 		mint(score);		
 	}
 }
@@ -352,7 +351,7 @@ function saldo(){
 		var result1 = await saldoToken();
 		var id = await tokenId();
 		var n = parseInt(result1, 10);	
-		id = id - n;
+		
 		var result2 = [];
 		var msg = '';
 		for (var i = 1; i <=n; i++) {

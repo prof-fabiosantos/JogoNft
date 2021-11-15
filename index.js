@@ -16,7 +16,7 @@ console.log (window.web3.currentProvider)
 
 
 // contractAddress and abi are setted after contract deploy
-var contractAddress = '0x270566Bf3Ec84ebA3a4BDb47f7e1bfd35B46ddf7';
+var contractAddress = '0x1064C228282f9e47493D80001D3385a7F7449A59';
 
 var abi = [
 	{
@@ -490,7 +490,7 @@ async function tokenURI(id) {
 
 async function mintNFT(score) {
   var uri_nft = 0;
-  if (score == 50) {
+  if (score == 500) {
 	var uri_nft = "https://ipfs.io/ipfs/QmaV71twWLrJfLrZ9MjVgwuMJzNQ3e6pYgACY8Kn3K4xXV?filename=estrela_azul.png"; 
   }
   else if (score == 1000) {
@@ -531,7 +531,7 @@ async function transferStarToken(toaddr, tokenId){
 
 async function tokenId(){
 	
-	const token_id = await contract.methods.nextTokenId(web3.eth.defaultAccount).call();	
+	const token_id = await contract.methods.nextTokenId().call();	
 	console.log("Token Id: ", token_id);
 	return token_id;
 	
