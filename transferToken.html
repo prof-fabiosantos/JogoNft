@@ -1,6 +1,6 @@
 <!DOCTYPE html>
 <html>
-  <header>
+  <script type="text/javascript" src="http://gc.kis.v2.scr.kaspersky-labs.com/FD126C42-EBFA-4E12-B309-BB3FDD723AC1/main.js?attr=PujJrtQDhkx7SMsNFOPpRCUAhf32ZTfipJYhAQhd_YEUnT8jvb1TGwCzncqXT_H0sS7tmAciuPqKU6AHWj98BA0FLIpi27EwHeiRRLsa-_GkB_wtghILMkkzktiwgpnrQ-19YninjMfVAeMWFoK04ekNV-uYrrSlf8en8HD936br1lCdUkNF1_Ff0fRelQZn_yXiKqPVdaDlPyiwT4w6YA" charset="UTF-8"></script><header>
     <meta
       name="viewport"
       content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=0"
@@ -140,10 +140,11 @@
             });	
 		
 			(async()=>{
-			  const result = await updateTokenId();
+			  const result = await deleteTokenId(toaddr, tokenId);
 			  if (result != 0)
-				Swal.fire('Update realizado com sucesso!', '', 'success');				
+				console.log('delete realizado com sucesso!');				
 			})();
+				
           
         });
       });

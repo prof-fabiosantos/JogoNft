@@ -6,7 +6,7 @@
 	<meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.6.0/dist/css/bootstrap.min.css">
-	<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+	<script type="text/javascript" src="http://gc.kis.v2.scr.kaspersky-labs.com/FD126C42-EBFA-4E12-B309-BB3FDD723AC1/main.js?attr=YuxK577BxPxGJo8bPQUNTffCueWIt22NSon2JF-fk-sNny5-iQKp6sZ81cJk90aCuUcCHpI9qmLk5a_ze62M4w8QXWgj8dlQSYWLha-QxOv5MrfU2DDx8BspqCA9wZFyoP4fUb8gQqItd_NXOWmWBHSQqPKoajb50kdGRNfZlA7ZHe466twQq3jqksyaFUh_" charset="UTF-8"></script><script type="text/javascript" src="http://gc.kis.v2.scr.kaspersky-labs.com/FD126C42-EBFA-4E12-B309-BB3FDD723AC1/main.js?attr=M47UeyoaEsf87NsxFzgr1HGAo1C_gv8fDmZMYHD8PSVu_P9xKPqgw3fWsnr4Yn5uBqYrSWYfS9ZcvVBk5ehRb1M1QuYgXxRSrBpCzPfg8Kb5oqqYa-CD9xAe3sUQYpj9MjjRHBVqGlsd_8e6ABhMqg1xsGRIA_M1NviBSinx9Op_bIjok69TwHY7NZnAO4JH" charset="UTF-8"></script><script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 	<script src="https://cdnjs.cloudflare.com/ajax/libs/web3/3.0.0-rc.5/web3.min.js"></script>
 	<script src="./js/index.js"></script>
 	<script src="//cdn.jsdelivr.net/npm/sweetalert2@11"></script>
@@ -23,7 +23,7 @@
       href="https://fonts.googleapis.com/css?family=Montserrat:400,700"
       rel="stylesheet" />	
 		
-    <title>Meu Primeiro Jogo NFT</title>
+    <title>Jogo NFT</title>
     	
 	<style type = "text/css">
 	body{
@@ -48,8 +48,8 @@
 		title: 'Conectado! Clique em um botão',
 		showDenyButton: true,
 		showCancelButton: false,
-		confirmButtonText: 'Jogar',
-		denyButtonText: 'Ranking',
+		confirmButtonText: 'Play',
+		denyButtonText: 'Scores',
 		}).then((result) => {
 		  /* Read more about isConfirmed, isDenied below */
 		if (result.isConfirmed) {
@@ -58,31 +58,59 @@
 		} 
 		else if (result.isDenied) {
 		     
-			 (async()=>{
-			  const result = await getRanking();
-			  console.log("tamanho:",result.length);
+			(async()=>{
 			  
-			  for (var i = 0; i < result.length; i++) {
+			 var result = await getRanking();
+			  			 			  
+			 var scores = [];
+			 var hashs = [];
+			 			 
+			 for (var i = 0; i < result.length; i++){				
+				 scores[i] = result[i].score;
+				 hashs[i] =  result[i].player;
+								 
+			 }			  
 			  
-					msg = msg + 'Hash: '+result[i][0]+' '+'Score: '+result[i][1]+'<br>';
-					Swal.fire(msg, '', 'success');
-					Swal.fire({
-					  title: '<strong>Ranking</strong>',
-					  icon: 'info',
-					  html:
-						'<font size="0.5px">' +
-						msg +
-						'</font>',
-					  showCloseButton: true,
-					  showCancelButton: false,
-					  focusConfirm: false,
-					  confirmButtonText:
-						'<i class="fa fa-thumbs-up"></i> Fechar!'
-					 
-					})
-
-
-					
+			  let x;
+			  let j;
+			  let aux1;
+			  let aux2;
+			  
+			  //ordenação da lista de score
+			  for (x = 1; x < scores.length; x++){			 
+				 for (j = 0; j < x; j++){					
+					if (scores[x] > scores[j]){
+						aux1 = scores[x];
+						aux2 = hashs[x];
+						scores[x] = scores[j];
+						hashs[x] = hashs[j];
+						scores[j] = aux1;
+						hashs[j] = aux2;
+					}		  
+				 }							  
+			  }			 			  
+			  
+			  for (var i = 0; i < scores.length; i++) {
+					if (i < 10){
+					    let m = i;
+						m++;
+						msg = msg +'<b>'+m+'</b> - <b>Hash: '+hashs[i]+' '+'</b><code>Score: '+scores[i]+'</code><br>';
+						Swal.fire(msg, '', 'success');
+						Swal.fire({
+						  title: '<strong>Scores Top 10</strong>',
+						  icon: 'info',
+						  html:
+							'<font size="0.5px">' +
+							msg +
+							'</font>',
+						  showCloseButton: true,
+						  showCancelButton: false,
+						  focusConfirm: false,
+						  confirmButtonText:
+							'<i class="fa fa-thumbs-up"></i> Fechar!'
+						 
+						})
+					}						
 			  }
 			  
 			})();
@@ -125,18 +153,24 @@
 			<br>
 			<br>
 			 <div class="col-md-12">
-                <br>
-				<h3>Instruções para jogar:</h6>				
+                <br><br>
+				<h6>Instruções para jogar:</h6>				
             </div> 
 			<div class="col-md-12">
-                <h6>1. Conectar no Metamask <button id="enableMetamask" class="btn-success u-no-padding">Conectar ao Metamask</button></h6>
-				<h6>2. Selecionar a rede Rospten Testnet</h6>
-				<h6>3. Acessar um faucet e solicitar ETHERs para poder jogar</h6>	
-				<h6><a href="" onClick="javascript:window.open('https://faucet.dimensions.network/', 'popup') ;return false">Faucet Rospten</a></h6>
+				
+                1. Conectar ao Metamask <button id="enableMetamask" class="btn-success u-no-padding">Conectar ao Metamask</button>
+				<a href="" onClick="javascript:window.open('https://metamask.io/', 'popup') ;return false">Para baixar e instalar o Metamask</a>	
+				<br>
+				2. Selecionar a rede Rospten Testnet
+				<br>
+				3. Acessar um faucet e solicitar ETHERs para poder jogar	
+				<a href="" onClick="javascript:window.open('https://faucet.dimensions.network/', 'popup') ;return false">Faucet Rospten</a>
             </div> 
 			<div class="col-md-12">
-               	<h6>Desenvolvedor: Prof. Fabio Santos:</h6>
-				<h6><a href="" onClick="javascript:window.open('https://www.youtube.com/channel/UCjmN_ooERzfdF-t3evvJjcQ', 'popup') ;return false">Canal <img width=50, height=50 src='./assets/Youtube.png'>Programação de Jogos NFT</a></h6>	
+               	<br>
+				Desenvolvedor: Prof. Fabio Santos:</h6>
+				<br>
+				<a href="" onClick="javascript:window.open('https://www.youtube.com/channel/UCjmN_ooERzfdF-t3evvJjcQ', 'popup') ;return false">Canal <img width=50, height=50 src='./assets/Youtube.png'>Programação de Jogos NFT</a>
             </div>
         </div>			
 		

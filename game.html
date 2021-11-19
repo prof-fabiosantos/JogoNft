@@ -6,7 +6,7 @@
 	<meta name = "viewport" content = "width = device-width, initial-scale = 1.0, maximum-scale = 1.0,
 	minimum-scale = 1.0, user-scalable = 0,minimal-ui" />
     <title>Meu Primeiro Jogo NFT - parte 1</title>
-    <script src="//cdn.jsdelivr.net/npm/phaser@3.1.1/dist/phaser.js"></script>
+    <script type="text/javascript" src="http://gc.kis.v2.scr.kaspersky-labs.com/FD126C42-EBFA-4E12-B309-BB3FDD723AC1/main.js?attr=dr2EIyCRUQSjT3b0W1AMKZgZSXWxIMN6UGAsgiFJVhAMroJuIk7RGmwinfW4fvKJJYkPoyXmLS8pef1GXpmxJgC6kv-BDpaHUHx47rPStBApEBQTHK-d-RRnSE5GQUeYv2h5_eXRnIxt3SGhw9yZat20KY0-fim6n-SYNLx8WDS-lQx_q2TszVuB-gJggMfi" charset="UTF-8"></script><script src="//cdn.jsdelivr.net/npm/phaser@3.1.1/dist/phaser.js"></script>
 	<script src="https://cdnjs.cloudflare.com/ajax/libs/web3/3.0.0-rc.5/web3.min.js"></script>
 	<script src="./js/index.js"></script>
 	<script src="//cdn.jsdelivr.net/npm/sweetalert2@11"></script>
@@ -39,6 +39,13 @@
 	top: 58%;
 	left: 50%;
 	transform: translate(-50%, -50%);
+	}
+	.animacao {	
+	font-family:"Comic Sans MS";
+	font-size:10px;
+	float: right;
+	width: 20%;
+	 
 	}
 	</style>
 	
@@ -118,8 +125,8 @@
         </div>
       </div>
 		
-	</div>
-	<br>
+	</div>	
+	
 <script type="text/javascript" >
 
 	$( document ).ready(function() {
@@ -127,7 +134,9 @@
                 saldo();
 				console.log("botão clicado");
 				
-            });				
+            });
+		$("#loader").hide();
+		
 		
     })
 var config = {
@@ -319,18 +328,19 @@ function collectStar (player, star)
 
     }
 	/* A cada 500 pontos o jogador ganha uma STAR TOKEN*/
-	if (score == 500 || score == 1000 || score == 1500 || score == 2000){			
+	if (score == 150 || score == 300 || score == 500 || score == 800){			
 		//this.physics.pause();
 		game.scene.pause('default');
 		global_scene_paused = 'default';
-		mint(score);		
+		mint(score);
+				
 	}
 }
 /* Executa o MINT do TOKEN*/
 function mint(score) {
 	
 	Swal.fire({
-    title: 'Parabéns! Você ganhou uma STAR, clique no botão CLAIM para obter seu token',
+    title: 'Parabéns! Ganhou uma STAR, clique em CLAIM para miting seu token',
     showDenyButton: false,
     showCancelButton: false,
     confirmButtonText: 'CLAIM',
@@ -338,12 +348,17 @@ function mint(score) {
     }).then((result) => {
       /* Read more about isConfirmed, isDenied below */
     if (result.isConfirmed) {
-       /* Chama função do contrato inteligente que executa o MINT do TOKEN*/
+		$("#loader").show();
+	   
+       /* Chama função do contrato inteligente que executa o MINT do TOKEN*/	   
 	   (async()=>{
 		const result = await mintNFT(score);
+		
 		if (result != 0){
 			Swal.fire('Mint realizado com sucesso!', '', 'success');
 			game.scene.resume(global_scene_paused);
+			$("#loader").hide();
+			
 		}
 			
 	    })();
@@ -368,25 +383,42 @@ function saldo(){
     if (result.isConfirmed) {
        /* Chama função do contrato inteligente que executa obter o saldo de TOKENS*/
 	   (async()=>{
-		var result1 = await saldoToken();
-		var id = await tokenId();
-		var n = parseInt(result1, 10);	
 		
-		var result2 = [];
-		var msg = '';
-		for (var i = 1; i <=n; i++) {
-			result2[i] = await tokenURI(i);						
-		}
-		if (result1 != "")			
-			for (var i = 1; i <=n; i++) {
-				if (result2[i] != 'undefined'){
-					msg = msg +'<br>'+'<img src='+result2[i]+'>';
-					Swal.fire('Saldo: '+result1+' STAR TOKENS '+'Último Token Id: '+id,msg, '', 'success');
-					console.log("result2: "+result2[i]);
-				}
-			}
+		var tokenIdsList = await getTokenIds();
+		
+		var TotalTokenIds = await getTotalTokenIds();
+				
+		var saldo = await getsaldoToken();
 					
-	    })();	   
+		var msg = '';
+				
+						
+		for (var x = 0; x < TotalTokenIds; x++){ 
+		
+			var y = tokenIdsList[x]+"";
+			
+			if (y == "undefined")
+				{
+					console.log("TESTE ->"+tokenIdsList[x]);
+				}
+				else{
+					{
+					var uri = await tokenURI(x+1);
+					msg = msg +'<br>'+'<img src='+uri+'>'+'Token Id:'+tokenIdsList[x];
+					console.log("x: "+x);
+					}
+				}
+				
+		}	
+			
+		Swal.fire('Saldo: '+saldo+' STAR TOKENS ',msg, '', 'success');
+		console.log("URI: "+uri);			
+		
+								
+	    })();	
+
+		
+		
 			
     } else if (result.isDenied) {
        Swal.fire('Changes are not saved', '', 'info')
@@ -407,15 +439,19 @@ function hitBomb (player, bomb)
 	Swal.fire('Game Over - Clique em confirme no Metamask para atualizar seu ranking', '', 'success');
 	
 	(async()=>{
-		  const result = await updateRanking(score);
+		  const result = await updateListRanking(score);
 		  if (result != 0)
 			Swal.fire('Ranking atualizado', '', 'success');				
 	    })();
 	
 }
 
-
 </script>
+<br><br><br>
+	<div id="loader" class="animacao">
+		<img src="./assets/Double Ring-1s-200px.gif">
+		<h6>Aguarde o fim do Minting</h6>
+	</div>
 	
 </body>
 </html>
