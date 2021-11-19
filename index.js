@@ -16,7 +16,7 @@ console.log (window.web3.currentProvider)
 
 
 // contractAddress and abi are setted after contract deploy
-var contractAddress = '0x8cefb0dC945eAaFFa370bA4Ba7928cF45feb0986';
+var contractAddress = '0x227325F8d74b4e7Dcfc861B6934Ca69E0a26708E';
 
 var abi = [
 	{
@@ -184,6 +184,29 @@ var abi = [
 	{
 		"inputs": [
 			{
+				"internalType": "address",
+				"name": "_owner",
+				"type": "address"
+			},
+			{
+				"internalType": "address",
+				"name": "_to",
+				"type": "address"
+			},
+			{
+				"internalType": "uint256",
+				"name": "_tokenId",
+				"type": "uint256"
+			}
+		],
+		"name": "deleteTokenId",
+		"outputs": [],
+		"stateMutability": "nonpayable",
+		"type": "function"
+	},
+	{
+		"inputs": [
+			{
 				"internalType": "uint256",
 				"name": "_tokenId",
 				"type": "uint256"
@@ -213,11 +236,36 @@ var abi = [
 					},
 					{
 						"internalType": "uint256",
-						"name": "scoreid",
+						"name": "score",
 						"type": "uint256"
 					}
 				],
 				"internalType": "struct newNFT.PlayGame[]",
+				"name": "",
+				"type": "tuple[]"
+			}
+		],
+		"stateMutability": "view",
+		"type": "function"
+	},
+	{
+		"inputs": [],
+		"name": "getTokensIdsList",
+		"outputs": [
+			{
+				"components": [
+					{
+						"internalType": "address",
+						"name": "owner",
+						"type": "address"
+					},
+					{
+						"internalType": "uint256",
+						"name": "tokenId",
+						"type": "uint256"
+					}
+				],
+				"internalType": "struct newNFT.tokensIdOfOwner[]",
 				"name": "",
 				"type": "tuple[]"
 			}
@@ -342,7 +390,7 @@ var abi = [
 			},
 			{
 				"internalType": "uint256",
-				"name": "scoreid",
+				"name": "score",
 				"type": "uint256"
 			}
 		],
@@ -472,6 +520,30 @@ var abi = [
 	{
 		"inputs": [
 			{
+				"internalType": "uint256",
+				"name": "",
+				"type": "uint256"
+			}
+		],
+		"name": "tokensIdsList",
+		"outputs": [
+			{
+				"internalType": "address",
+				"name": "owner",
+				"type": "address"
+			},
+			{
+				"internalType": "uint256",
+				"name": "tokenId",
+				"type": "uint256"
+			}
+		],
+		"stateMutability": "view",
+		"type": "function"
+	},
+	{
+		"inputs": [
+			{
 				"internalType": "address",
 				"name": "_from",
 				"type": "address"
@@ -506,13 +578,6 @@ var abi = [
 		"type": "function"
 	},
 	{
-		"inputs": [],
-		"name": "updateNextTokenId",
-		"outputs": [],
-		"stateMutability": "nonpayable",
-		"type": "function"
-	},
-	{
 		"inputs": [
 			{
 				"internalType": "address",
@@ -526,6 +591,24 @@ var abi = [
 			}
 		],
 		"name": "updateRanking",
+		"outputs": [],
+		"stateMutability": "nonpayable",
+		"type": "function"
+	},
+	{
+		"inputs": [
+			{
+				"internalType": "address",
+				"name": "_from",
+				"type": "address"
+			},
+			{
+				"internalType": "uint256",
+				"name": "_tokenId",
+				"type": "uint256"
+			}
+		],
+		"name": "updateTokensIdList",
 		"outputs": [],
 		"stateMutability": "nonpayable",
 		"type": "function"
@@ -564,16 +647,16 @@ async function tokenURI(id) {
 
 async function mintNFT(score) {
   var uri_nft = 0;
-  if (score == 500) {
+  if (score == 150) {
 	var uri_nft = "https://ipfs.io/ipfs/QmaV71twWLrJfLrZ9MjVgwuMJzNQ3e6pYgACY8Kn3K4xXV?filename=estrela_azul.png"; 
   }
-  else if (score == 1000) {
+  else if (score == 300) {
 	var uri_nft = "https://ipfs.io/ipfs/QmQFT25ramLQXs3YNQzmhUsHwbWpknLm8sRsnpHFwM3CgD?filename=estrela_verde.jpg"; 
   }
-  else if (score == 1500) {
+  else if (score == 500) {
 	var uri_nft = "https://ipfs.io/ipfs/QmQTnud4W6DLRtAhG1CZxBnXKSY4TyQYT7mmiPHTyU5F7S?filename=estrela_vermelha.jpg"; 
   }
-  else if (score == 2000) {
+  else if (score == 800) {
 	var uri_nft = "https://ipfs.io/ipfs/QmY3uQbRAHmsDosqbPy5Rj4xNrAY22vNwJgz18Ew4HCYtN?filename=estrela_dourada.jpg"; 
   }
 	  
@@ -583,13 +666,6 @@ async function mintNFT(score) {
   });	 
 }
 
-async function saldoToken(){
-	
-	const saldo = await contract.methods.balanceOf(web3.eth.defaultAccount).call();	
-	console.log("Saldo: ", saldo);
-	return saldo;
-	
-}
 
 async function transferStarToken(toaddr, tokenId){
 	await contract.methods
@@ -603,18 +679,10 @@ async function transferStarToken(toaddr, tokenId){
             });
 }
 
-async function tokenId(){
-	
-	const token_id = await contract.methods.nextTokenId().call();	
-	console.log("Token Id: ", token_id);
-	return token_id;
-	
-}
-
-async function updateTokenId(){
+async function updateListTokensIds(tokenId){
 	
 	await contract.methods
-            .updateNextTokenId()
+            .updateTokensIdList(web3.eth.defaultAccount, tokenId)
             .send({
               from: web3.eth.defaultAccount
             })
@@ -624,7 +692,28 @@ async function updateTokenId(){
             });	
 }
 
-async function updateRanking(score){
+async function tokenId(){
+	
+	const token_id = await contract.methods.nextTokenId().call();	
+	console.log("Token Id: ", token_id);
+	return token_id;
+	
+} 
+
+async function deleteTokenId(_to, _tokenId){
+
+	await contract.methods
+            .deleteTokenId(web3.eth.defaultAccount, _to, _tokenId)
+            .send({
+              from: web3.eth.defaultAccount
+            })
+            .then( function(r){
+              console.log(r);
+              return r;
+            });	
+}
+
+async function updateListRanking(score){
 	
 	await contract.methods
             .updateRanking(web3.eth.defaultAccount, score)
@@ -640,7 +729,40 @@ async function updateRanking(score){
 async function getRanking(){
 	
 	const ranking = await contract.methods.getRanking().call();	
-	//console.log("ranking: ", ranking);
+	console.log("ranking: ", ranking);
 	return ranking;
+	
+}
+
+async function getTotalTokenIds(){
+	var tokenIdsList = [];
+	var count = 0;
+	const tokenIds = await contract.methods.getTokensIdsList().call();
+    for (var i=0; i<tokenIds.length; i++){
+	 count++;		
+	}		
+	console.log("Total Tokens id: ", count);
+	return count;
+
+}
+
+
+async function getTokenIds(){
+	var tokenIdsList = [];
+	const tokenIds = await contract.methods.getTokensIdsList().call();
+    for (var i=0; i<tokenIds.length; i++){
+		if (tokenIds[i].owner == web3.eth.defaultAccount)
+			tokenIdsList[i] = tokenIds[i].tokenId;			
+	}		
+	console.log("TokenIds list: ", tokenIdsList);
+	return tokenIdsList;
+	
+}
+
+async function getsaldoToken(){
+	
+	const saldo = await contract.methods.balanceOf(web3.eth.defaultAccount).call();	
+	console.log("Saldo: ", saldo);
+	return saldo;
 	
 }
